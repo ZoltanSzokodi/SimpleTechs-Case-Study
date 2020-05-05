@@ -27,12 +27,12 @@ class PersonOne {
 }
 
 // INSTANTIATE a NEW PERSON
-const peter_parker = new PersonOne('Peter Parker', 18, 220);
+const peter_parker = new PersonOne('Peter Parker', 18);
 
 // We can access and modify without the getters and setters - no protection
 peter_parker.name = 'Mike Jennings'; // Changed without the setter function
 peter_parker.age = 14;
-peter_parker.savings = 0;
+peter_parker.savings = 200;
 
 console.log('============== ES6 ==============');
 console.log(`${peter_parker.getName()} is ${peter_parker.getAge()} years old`);
