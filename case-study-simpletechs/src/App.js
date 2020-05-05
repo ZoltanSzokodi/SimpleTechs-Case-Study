@@ -1,26 +1,85 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+// 3rd party lib
+import { v4 as uuidv4 } from 'uuid';
+
+// Components
+import Form from './components/Form';
+import SavingsCheck from './components/SavingsCheck';
+import List from './components/List';
+
+// Person Class
+import Person from './class/Person';
+
+const App = () => {
+  const [persons, setPersons] = useState([]);
+  const [person, setPerson] = useState({ name: '', age: '' });
+  const [savingsVal, setSavingsVal] = useState(0);
+  const [savings, setSavings] = useState(0);
+
+  // Form input handler
+  const handleFormChange = e => {
+    setPerson({
+      ...person,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Savings check input handler
+  const handleSavingsChange = e => {
+    setSavingsVal(e.target.value);
+  };
+
+  // OnClick check persons savings
+  const checkSavings = () => {
+    setSavings(savingsVal);
+  };
+
+  // OnClick increment savings by +100
+  const addPaycheck = id => {
+    const afterPayday = persons.map(p => {
+      if (p.getID() === id) p.givePaycheck();
+      return p;
+    });
+
+    setPersons(afterPayday);
+  };
+
+  // Submit form data to list
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    // Instantiate new Person
+    const newPerson = new Person();
+
+    // Set attributes on new instance with setters
+    newPerson.setID(uuidv4());
+    newPerson.setName(person.name);
+    newPerson.setAge(person.age);
+
+    // Add newPerson instance to the list
+    setPersons(persons.concat(newPerson));
+
+    // Reset form data
+    setPerson({ name: '', age: '' });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <Form
+        handleSubmit={handleSubmit}
+        handleFormChange={handleFormChange}
+        person={person}
+      />
+      <SavingsCheck
+        handleSavingsChange={handleSavingsChange}
+        checkSavings={checkSavings}
+        savingsVal={savingsVal}
+      />
+      <List addPaycheck={addPaycheck} persons={persons} savings={savings} />
     </div>
   );
-}
+};
 
 export default App;
