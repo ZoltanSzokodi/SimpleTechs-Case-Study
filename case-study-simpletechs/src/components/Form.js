@@ -3,6 +3,7 @@ import React from 'react';
 const Form = ({ handleSubmit, handleFormChange, person: { name, age } }) => {
   return (
     <div className='form-container'>
+      <h2>Add a new person</h2>
       <form className='form' onSubmit={handleSubmit}>
         <div className='form-inputs'>
           <input
@@ -23,7 +24,7 @@ const Form = ({ handleSubmit, handleFormChange, person: { name, age } }) => {
           />
         </div>
         <div>
-          <button type='submit'>add</button>
+          <button type='submit'>add person</button>
         </div>
       </form>
     </div>
